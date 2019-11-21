@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jasmine"
+    "test": "node --experimental-modules --es-module-specifier-resolution=node run-tests.js"
   },
   "repository": {
     "type": "git",

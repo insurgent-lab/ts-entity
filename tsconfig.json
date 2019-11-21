@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true,
     "moduleResolution": "node",
+    "module": "es2015",
+    "target": "es2017",
+    "lib": ["es2017"],
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": true,
+    "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./dist",
-    "rootDir": "./",
     "removeComments": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
-    "lib": ["es2015", "dom"],
-    "baseUrl": "./"
+    "noImplicitAny": true
   },
-  "exclude": [
-      "node_modules",
-      "dist"
+  "include": [
+    "./src/**/*"
   ]
 }
