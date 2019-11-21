@@ -1,18 +1,13 @@
 import { EntityBuilder } from './EntityBuilder';
 import { defaultMetadataStorage } from './support/storage';
 import { TypeMetadata } from './support/metadata/TypeMetadata';
-import { StringHelper } from './support/StringHelper';
 
 export class Entity {
 
     /**
      * Parse a generic object into an entity object.
-     *
-     * @param sourceObject
-     * @param jsonObject
-     * @returns {T}
      */
-    private static jsonParse<T extends {[key: string]: any}>(sourceObject: T, jsonObject: any): T {
+    private static jsonParse<T extends any>(sourceObject: T, jsonObject: Omit<T, 'fromJson'|'toJson'>): T {
         for (let key in jsonObject) {
             if (jsonObject.hasOwnProperty(key)) {
                 const metadata: TypeMetadata = defaultMetadataStorage.findTypeMetadata(sourceObject.constructor, key);
@@ -48,8 +43,6 @@ export class Entity {
                     continue;
                 }
 
-                key = EntityBuilder.enableCamelConversion ? StringHelper.toCamel(key) : key;
-
                 if (sourceObject.hasOwnProperty(key)) {
                     sourceObject[key] = value;
                 }
@@ -66,21 +59,16 @@ export class Entity {
 
   /**
    * Convert JSON data to an Entity instance.
-   *
-   * @param jsonData
-   * @returns {any}
    */
-    fromJson(jsonData: any): any {
+    fromJson?(jsonData: Omit<this, 'fromJson'|'toJson'>): this {
         return Entity.jsonParse(this, jsonData);
     }
 
   /**
    * Convert an Entity to JSON, either in object or string format.
-   * @param {boolean} toSnake
-   * @param {boolean} asString
-   * @returns {any}
    */
-    toJson(toSnake: boolean = true, asString: boolean = false): any {
+    toJson?<T extends boolean>(asString?:  T ): T extends true ? string : Omit<this, 'fromJson'|'toJson'>
+    toJson?(asString: boolean = false): Omit<this, 'fromJson'|'toJson'> | string {
         const data: any = {};
 
         for (let key in this) {
@@ -88,12 +76,10 @@ export class Entity {
             continue;
           }
 
-          let outputKey = toSnake ? StringHelper.toSnake(key) : key;
-
           const value: any = this[key];
 
           if (value instanceof Entity) {
-              data[outputKey] = value.toJson(toSnake, asString);
+              data[key] = value.toJson(asString);
 
               continue;
           }
@@ -102,11 +88,11 @@ export class Entity {
 
           if (value instanceof Array && value.length > 0 && value[0] instanceof Object) {
             if (value[0] instanceof Entity) {
-              data[outputKey] = value.map((entity: Entity) => entity.toJson(toSnake, asString));
+              data[key] = value.map((entity: Entity) => entity.toJson(asString));
             }
 
             if (metadata && metadata.type === Object) {
-              data[outputKey] = value;
+              data[key] = value;
             }
 
             continue;
@@ -116,13 +102,13 @@ export class Entity {
           // we will simply output the object itself.
           if (value !== null && typeof value === 'object' && !(value instanceof Array)) {
               if (metadata && metadata.type === Object) {
-                  data[outputKey] = value;
+                  data[key] = value;
               }
 
               continue;
           }
 
-          data[outputKey] = value;
+          data[key] = value;
         }
 
         return asString ? JSON.stringify(data) : data;

@@ -19,28 +19,32 @@ describe('Decorators - Type', () => {
             expect(storedMetadata.type).toEqual(Decorated);
         });
 
-        it('Infers that the source name should be snake_case', () => {
-            let decorator = Type(Decorated);
-            let fn = (): null => null;
-            decorator(fn, 'camelAttribute');
+        // waiting for https://github.com/Microsoft/TypeScript/issues/12754 before re-implementing
+        // it('Infers that the source name should be snake_case', () => {
+        //     let decorator = Type(Decorated);
+        //     let fn = (): null => null;
+        //     decorator(fn, 'camelAttribute');
 
-            let storedMetadata = defaultMetadataStorage.findTypeMetadata(fn.constructor, 'camel_attribute');
-            expect(storedMetadata).not.toBeUndefined();
-            expect(storedMetadata.propertyName).toEqual('camelAttribute');
-            expect(storedMetadata.sourcePropertyName).toEqual('camel_attribute');
-            expect(storedMetadata.type).toEqual(Decorated);
-        });
+        //     let storedMetadata = defaultMetadataStorage.findTypeMetadata(fn.constructor, 'camel_attribute');
+        //     expect(storedMetadata).not.toBeUndefined();
+        //     expect(storedMetadata.propertyName).toEqual('camelAttribute');
+        //     expect(storedMetadata.sourcePropertyName).toEqual('camel_attribute');
+        //     expect(storedMetadata.type).toEqual(Decorated);
+        // });
     });
 
-    it('Allows manually overriding the source attribute name', () => {
-        let decorator = Type(Decorated, 'camelAttribute');
-        let fn = (): null => null;
-        decorator(fn, 'camelAttribute');
+    // waiting for https://github.com/Microsoft/TypeScript/issues/4881 before re-implementing
+    // it seems that sourcePropertyName wasn't replaced back when using toJSON, need to implement / test
+    // this as well when decorator type mutation is implemented into Typescript
+    // it('Allows manually overriding the source attribute name', () => {
+    //     let decorator = Type(Decorated, 'camelAttribute');
+    //     let fn = (): null => null;
+    //     decorator(fn, 'camelAttribute');
 
-        let storedMetadata = defaultMetadataStorage.findTypeMetadata(fn.constructor, 'camelAttribute');
-        expect(storedMetadata).not.toBeUndefined();
-        expect(storedMetadata.propertyName).toEqual('camelAttribute');
-        expect(storedMetadata.sourcePropertyName).toEqual('camelAttribute');
-        expect(storedMetadata.type).toEqual(Decorated);
-    });
+    //     let storedMetadata = defaultMetadataStorage.findTypeMetadata(fn.constructor, 'camelAttribute');
+    //     expect(storedMetadata).not.toBeUndefined();
+    //     expect(storedMetadata.propertyName).toEqual('camelAttribute');
+    //     expect(storedMetadata.sourcePropertyName).toEqual('camelAttribute');
+    //     expect(storedMetadata.type).toEqual(Decorated);
+    // });
 });

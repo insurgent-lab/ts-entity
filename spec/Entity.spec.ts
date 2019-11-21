@@ -1,18 +1,11 @@
 import {Entity} from '../src/Entity';
 import {Type} from '../src/support/Type';
-import { EntityBuilder } from "../src/EntityBuilder";
 import {Default} from "../src/support/Default";
 
 class User extends Entity {
     public name: string = null;
     public email: string = null;
     public daysAvailable: string[] = [];
-}
-
-class UserWithUnderscore extends Entity {
-    public name: string = null;
-    public email: string = null;
-    public days_available: string[] = [];
 }
 
 class Address extends Entity {
@@ -33,22 +26,17 @@ class UserWithAddress extends User {
 
 class UserWithAnnotatedAddress extends User {
     @Type(Address)
-    public address: Address;
+    public address: Address = null;
 }
 
 class UserWithAnnotatedPosts extends User {
     @Type(Post)
-    public posts?: Post[];
-}
-
-class UserWithAliasedPrimitive extends User {
-    @Type(String, 'second_name')
-    public middleName: string;
+    public posts?: Post[] = null;
 }
 
 class UserWithAnnotatedObject extends User {
     @Type(Object)
-    public address: {[key: string]: string};
+    public address: {[key: string]: string} = null;
 }
 
 class UserWithDefaultValue extends User {
@@ -63,8 +51,9 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday']
+            daysAvailable: ['Monday', 'Wednesday', 'Friday']
         });
+        
 
         expect(user.name).toEqual('Decahedron Technologies Ltd.');
         expect(user.email).toEqual('hello@decahedron.io');
@@ -77,7 +66,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
                 city: 'London',
@@ -95,7 +84,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
                 city: 'London',
@@ -117,7 +106,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             posts: [{
                 title: 'About',
                 content: 'Lorem ipsum dolor sit amet'
@@ -136,25 +125,12 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             posts: []
         });
 
         expect(user.posts).toBeDefined();
         expect(user.posts).toEqual([]);
-    });
-
-    it('interprets an annotated primitive as an alias', () => {
-        const user = new UserWithAliasedPrimitive();
-
-        user.fromJson({
-            name: 'Decahedron Technologies Ltd',
-            email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
-            second_name: 'A Middle Name'
-        });
-
-        expect(user.middleName).toEqual('A Middle Name');
     });
 
     it('can decode an annotated Object, without being an entity', () => {
@@ -163,7 +139,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
                 city: 'London',
@@ -185,14 +161,14 @@ describe('Entity', () => {
       user.fromJson({
         name: 'Decahedron Technologies Ltd.',
         email: 'hello@decahedron.io',
-        days_available: ['Monday', 'Wednesday', 'Friday']
+        daysAvailable: ['Monday', 'Wednesday', 'Friday']
       });
 
       expect(user.toJson())
         .toEqual({
           name: 'Decahedron Technologies Ltd.',
           email: 'hello@decahedron.io',
-          days_available: ['Monday', 'Wednesday', 'Friday']
+          daysAvailable: ['Monday', 'Wednesday', 'Friday']
         });
     });
 
@@ -202,7 +178,7 @@ describe('Entity', () => {
     user.fromJson({
       name: 'Decahedron Technologies Ltd.',
       email: 'hello@decahedron.io',
-      days_available: ['Monday', 'Wednesday', 'Friday']
+      daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
     expect(user.toJson(false))
@@ -219,14 +195,14 @@ describe('Entity', () => {
     user.fromJson({
       name: 'Decahedron Technologies Ltd.',
       email: 'hello@decahedron.io',
-      days_available: ['Monday', 'Wednesday', 'Friday']
+      daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
-    expect(user.toJson(true, true))
+    expect(user.toJson(true))
       .toEqual(JSON.stringify({
         name: 'Decahedron Technologies Ltd.',
         email: 'hello@decahedron.io',
-        days_available: ['Monday', 'Wednesday', 'Friday']
+        daysAvailable: ['Monday', 'Wednesday', 'Friday']
       }));
   });
 
@@ -236,15 +212,15 @@ describe('Entity', () => {
     user.fromJson({
       name: 'Decahedron Technologies Ltd.',
       email: 'hello@decahedron.io',
-      days_available: ['Monday', 'Wednesday', 'Friday']
+      daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
-    expect(user.toJson(false, true))
+    expect(user.toJson(true))
       .toEqual(JSON.stringify({
         name: 'Decahedron Technologies Ltd.',
         email: 'hello@decahedron.io',
-        daysAvailable: ['Monday', 'Wednesday', 'Friday']
-      }));
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+      }))
   });
 
   it('can encode itself and its children to a plain object', () => {
@@ -253,7 +229,7 @@ describe('Entity', () => {
     user.fromJson({
       name: 'Decahedron Technologies Ltd.',
       email: 'hello@decahedron.io',
-      days_available: ['Monday', 'Wednesday', 'Friday'],
+      daysAvailable: ['Monday', 'Wednesday', 'Friday'],
       address: {
         street: '20-22 Wenlock Road',
         city: 'London',
@@ -266,7 +242,7 @@ describe('Entity', () => {
       .toEqual({
         name: 'Decahedron Technologies Ltd.',
         email: 'hello@decahedron.io',
-        days_available: ['Monday', 'Wednesday', 'Friday'],
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
         address: {
           street: '20-22 Wenlock Road',
           city: 'London',
@@ -282,7 +258,7 @@ describe('Entity', () => {
     user.fromJson({
       name: 'Decahedron Technologies Ltd.',
       email: 'hello@decahedron.io',
-      days_available: ['Monday', 'Wednesday', 'Friday'],
+      daysAvailable: ['Monday', 'Wednesday', 'Friday'],
       posts: [{
         title: 'About',
         content: 'Lorem ipsum dolor sit amet'
@@ -293,7 +269,7 @@ describe('Entity', () => {
       .toEqual({
         name: 'Decahedron Technologies Ltd.',
         email: 'hello@decahedron.io',
-        days_available: ['Monday', 'Wednesday', 'Friday'],
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
         posts: [{
           title: 'About',
           content: 'Lorem ipsum dolor sit amet'
@@ -307,7 +283,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: null,
         });
 
@@ -315,7 +291,7 @@ describe('Entity', () => {
           .toEqual({
               name: 'Decahedron Technologies Ltd.',
               email: 'hello@decahedron.io',
-              days_available: ['Monday', 'Wednesday', 'Friday'],
+              daysAvailable: ['Monday', 'Wednesday', 'Friday'],
               address: null,
           });
     });
@@ -326,7 +302,7 @@ describe('Entity', () => {
         user.fromJson({
             name: 'Decahedron Technologies Ltd.',
             email: null,
-            days_available: ['Monday', 'Wednesday', 'Friday'],
+            daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
                 city: 'London',
@@ -339,7 +315,7 @@ describe('Entity', () => {
           .toEqual({
               name: 'Decahedron Technologies Ltd.',
               email: null,
-              days_available: ['Monday', 'Wednesday', 'Friday'],
+              daysAvailable: ['Monday', 'Wednesday', 'Friday'],
               address: {
                   street: '20-22 Wenlock Road',
                   city: 'London',
@@ -349,26 +325,14 @@ describe('Entity', () => {
           });
     });
 
-    it('can preserve input keys', () => {
-        const user = new UserWithUnderscore;
-
-        EntityBuilder.convertToCamel(false);
-
-        user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
-            days_available: ['Monday', 'Wednesday', 'Friday']
-        });
-
-        expect(user.name).toEqual('Decahedron Technologies Ltd.');
-        expect(user.email).toEqual('hello@decahedron.io');
-        expect(user.days_available).toEqual(['Monday', 'Wednesday', 'Friday']);
-        EntityBuilder.convertToCamel();
-    });
-
     it('should assign a default value to properties with a null value', function () {
         const user = new UserWithDefaultValue;
-        user.fromJson({ value: null });
+        user.fromJson({
+          name: 'Decahedron Technologies Ltd.',
+          email: 'hello@decahedron.io',
+          daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+          value: null
+        });
 
         expect(user.value).toEqual('hi');
     });
