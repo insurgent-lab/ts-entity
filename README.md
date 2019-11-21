@@ -1,5 +1,7 @@
 # Typescript Entity
 
+:warning: This library is solely designed for Node v12.x and above :warning:
+
 This package provides a convenient way to decode JSON retrieved from your API or similar, and turning it into a TypeScript class instance.
 
 Each class is self-encoding, which means that it knows how to encode itself. As such, each class should extend the `Entity` class in order to work, as it deals with the heavy lifting. Alternatively, your class may implement its own `fromJson` method.
