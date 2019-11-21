@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/insurgent-lab/ts-entity/compare/v1.7.1...v2.0.0) (2019-11-21)
+
+
+### Features
+
+* add JSON data type validation ([f5dccc1](https://github.com/insurgent-lab/ts-entity/commit/f5dccc1e83020f2ddbaf0e9a929b5f002f0e73bf))
+
+
+### BREAKING CHANGES
+
+* Disabled annotated aliases
+* Disabled snake_case <=> camelCase conversions
+* toJson signature from `toJson(toSnake: boolean = true, asString: boolean = false)` to `toJson(asString: boolean = false)`
+
 # [1.7.1](https://github.com/insurgent-lab/ts-entity/compare/v1.6.0...v1.7.1) (2019-11-21)
 
 
