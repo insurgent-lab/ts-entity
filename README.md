@@ -1,20 +1,20 @@
-# Decahedron Entity
+# Typescript Entity
 
 This package provides a convenient way to decode JSON retrieved from your API or similar, and turning it into a TypeScript class instance.
 
 Each class is self-encoding, which means that it knows how to encode itself. As such, each class should extend the `Entity` class in order to work, as it deals with the heavy lifting. Alternatively, your class may implement its own `fromJson` method.
 
 ## Installation
-Install the package from NPM under the name `@decahedron/entity`:
+Install the package from NPM under the name `@insurgent/entity`:
 ```
-yarn add @decahedron/entity
+yarn add @insurgent/entity
 ```
 
 ## Usage
 The basic usage is very straightforward: make your class extend `Entity`, and use the `EntityBuilder` to hydrate instances of it:
 
 ```typescript
-import { Entity, EntityBuilder } from '@decahedron/entity';
+import { Entity, EntityBuilder } from '@insurgent/entity';
 
 class User extends Entity {
     // We instantiate with null to ensure the property exists
@@ -41,12 +41,12 @@ fetch('https://api.service.com/v1/users')
 If your endpoint returns a nested object, such as:
 ```json
 {
-    "name": "Decahedron Technologies Ltd.",
-    "email": "hello@decahedron.io",
+    "name": "Insurgent Lab",
+    "email": "hello@insurgent.io",
     "address": {
-        "street": "20-22 Wenlock Road",
+        "street": "221B Baker Street",
         "city": "London",
-        "zip": "N1 7GU",
+        "zip": "NW1 6XE",
         "country": "United Kingdom"
     }
 }
@@ -55,7 +55,7 @@ The JSON decoding process will _ignore_ the nested object (`address`). This also
 
 There are two ways to solve this. The first one is to simply override the `fromJson` method (in fact, this is why we expose the method on the `Entity`, to make it easy to override decoding functionality):
 ```typescript
-import { Entity, EntityBuilder } from '@decahedron/entity';
+import { Entity, EntityBuilder } from '@insurgent/entity';
 
 class User extends Entity {
     public name: string = null;
@@ -108,11 +108,11 @@ The method defaults to converting your properties to snake case. To prevent this
 
 ### Circular dependency issue
 
-Because Javascript cannot handle circular dependencies, two related entities cannot annotate each other via the ways shown above. Since v2.7.0, Decahedron Entity solves this issue by importing entity classes only when an entity instance is being built. So instead of importing them at top-level (which would not work as expected):
+Because Javascript cannot handle circular dependencies, two related entities cannot annotate each other via the ways shown above. Since v2.7.0, you can solve this issue by importing entity classes only when an entity instance is being built. So instead of importing them at top-level (which would not work as expected):
 
 ```typescript
 /* Blog.ts */
-import { Entity, Type } from '@decahedron/entity';
+import { Entity, Type } from '@insurgent/entity';
 import Comment from './Comment';
 
 export default class Blog extends Entity {
@@ -121,9 +121,10 @@ export default class Blog extends Entity {
     @Type(Comment)
     public comments: Comment[] = null;
 }
-
+```
+```typescript
 /* Comment.ts */
-import { Entity, Type } from '@decahedron/entity';
+import { Entity, Type } from '@insurgent/entity';
 import Blog from './Blog';
 
 export default class Comment extends Entity {
@@ -138,7 +139,7 @@ You can now annotate them with an anonymous importer function:
 
 ```typescript
 /* Blog.ts */
-import { Entity, Type } from '@decahedron/entity';
+import { Entity, Type } from '@insurgent/entity';
 
 // You still need to import the annotated class to prevent Typescript and your IDE complaining about it.
 import Comment from './Comment';
@@ -149,9 +150,10 @@ export default class Blog extends Entity {
     @Type(() => require('./Comment'))
     public comments: Comment[] = null;
 }
-
+```
+```typescript
 /* Comment.ts */
-import { Entity, Type } from '@decahedron/entity';
+import { Entity, Type } from '@insurgent/entity';
 import Blog from './Blog';
 
 export default class Comment extends Entity {
@@ -170,6 +172,10 @@ export default class Comment extends Entity {
 Run the build and the tests using the following commands:
 
 ```
-$ npm run build
-$ npm test
+$ yarn build
+$ yarn test
 ```
+
+# Credits
+
+This package was originaly forked from [decahedronio/entity](https://github.com/decahedronio/entity).

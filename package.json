@@ -1,7 +1,8 @@
 {
-  "name": "@decahedron/entity",
+  "name": "@insurgent/entity",
   "version": "2.8.1",
   "description": "A library to encode and decode JSON into entity classes",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,16 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/decahedronio/entity"
+    "url": "https://github.com/insurgent-lab/ts-entity"
   },
   "keywords": [
     "entity",
     "json",
-    "decode",
-    "encode",
     "typescript"
   ],
-  "author": "Decahedron Technologies Ltd. <hello@decahedron.io>",
+  "author": "Insurgent Lab <root@insurgent.fr>",
+  "contributors": [
+    "Decahedron Technologies Ltd. <hello@decahedron.io>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@types/jasmine": "^2.5.52",
