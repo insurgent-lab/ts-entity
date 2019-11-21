@@ -49,14 +49,14 @@ describe('Entity', () => {
         const user = new User;
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday']
         });
         
 
-        expect(user.name).toEqual('Decahedron Technologies Ltd.');
-        expect(user.email).toEqual('hello@decahedron.io');
+        expect(user.name).toEqual('Insurgent Lab');
+        expect(user.email).toEqual('hello@insurgent.io');
         expect(user.daysAvailable).toEqual(['Monday', 'Wednesday', 'Friday']);
     });
 
@@ -64,8 +64,8 @@ describe('Entity', () => {
         const user = new UserWithAddress;
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
@@ -82,8 +82,8 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedAddress();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
@@ -104,8 +104,8 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedPosts();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             posts: [{
                 title: 'About',
@@ -123,8 +123,8 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedPosts();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             posts: []
         });
@@ -137,8 +137,8 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedObject();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
                 street: '20-22 Wenlock Road',
@@ -159,15 +159,15 @@ describe('Entity', () => {
       const user = new User;
 
       user.fromJson({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday']
       });
 
       expect(user.toJson())
         .toEqual({
-          name: 'Decahedron Technologies Ltd.',
-          email: 'hello@decahedron.io',
+          name: 'Insurgent Lab',
+          email: 'hello@insurgent.io',
           daysAvailable: ['Monday', 'Wednesday', 'Friday']
         });
     });
@@ -176,15 +176,15 @@ describe('Entity', () => {
     const user = new User;
 
     user.fromJson({
-      name: 'Decahedron Technologies Ltd.',
-      email: 'hello@decahedron.io',
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
       daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
     expect(user.toJson(false))
       .toEqual({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday']
       });
   });
@@ -193,15 +193,15 @@ describe('Entity', () => {
     const user = new User;
 
     user.fromJson({
-      name: 'Decahedron Technologies Ltd.',
-      email: 'hello@decahedron.io',
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
       daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
     expect(user.toJson(true))
       .toEqual(JSON.stringify({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday']
       }));
   });
@@ -210,15 +210,15 @@ describe('Entity', () => {
     const user = new User;
 
     user.fromJson({
-      name: 'Decahedron Technologies Ltd.',
-      email: 'hello@decahedron.io',
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
       daysAvailable: ['Monday', 'Wednesday', 'Friday']
     });
 
     expect(user.toJson(true))
       .toEqual(JSON.stringify({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday'],
       }))
   });
@@ -227,8 +227,8 @@ describe('Entity', () => {
     const user = new UserWithAnnotatedAddress();
 
     user.fromJson({
-      name: 'Decahedron Technologies Ltd.',
-      email: 'hello@decahedron.io',
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
       daysAvailable: ['Monday', 'Wednesday', 'Friday'],
       address: {
         street: '20-22 Wenlock Road',
@@ -240,8 +240,8 @@ describe('Entity', () => {
 
     expect(user.toJson())
       .toEqual({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday'],
         address: {
           street: '20-22 Wenlock Road',
@@ -256,8 +256,8 @@ describe('Entity', () => {
     const user = new UserWithAnnotatedPosts();
 
     user.fromJson({
-      name: 'Decahedron Technologies Ltd.',
-      email: 'hello@decahedron.io',
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
       daysAvailable: ['Monday', 'Wednesday', 'Friday'],
       posts: [{
         title: 'About',
@@ -267,8 +267,8 @@ describe('Entity', () => {
 
     expect(user.toJson())
       .toEqual({
-        name: 'Decahedron Technologies Ltd.',
-        email: 'hello@decahedron.io',
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
         daysAvailable: ['Monday', 'Wednesday', 'Friday'],
         posts: [{
           title: 'About',
@@ -281,16 +281,16 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedAddress();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
-            email: 'hello@decahedron.io',
+            name: 'Insurgent Lab',
+            email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: null,
         });
 
         expect(user.toJson())
           .toEqual({
-              name: 'Decahedron Technologies Ltd.',
-              email: 'hello@decahedron.io',
+              name: 'Insurgent Lab',
+              email: 'hello@insurgent.io',
               daysAvailable: ['Monday', 'Wednesday', 'Friday'],
               address: null,
           });
@@ -300,7 +300,7 @@ describe('Entity', () => {
         const user = new UserWithAnnotatedAddress();
 
         user.fromJson({
-            name: 'Decahedron Technologies Ltd.',
+            name: 'Insurgent Lab',
             email: null,
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
@@ -313,7 +313,7 @@ describe('Entity', () => {
 
         expect(user.toJson())
           .toEqual({
-              name: 'Decahedron Technologies Ltd.',
+              name: 'Insurgent Lab',
               email: null,
               daysAvailable: ['Monday', 'Wednesday', 'Friday'],
               address: {
@@ -328,8 +328,8 @@ describe('Entity', () => {
     it('should assign a default value to properties with a null value', function () {
         const user = new UserWithDefaultValue;
         user.fromJson({
-          name: 'Decahedron Technologies Ltd.',
-          email: 'hello@decahedron.io',
+          name: 'Insurgent Lab',
+          email: 'hello@insurgent.io',
           daysAvailable: ['Monday', 'Wednesday', 'Friday'],
           value: null
         });
