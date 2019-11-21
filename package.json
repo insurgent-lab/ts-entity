@@ -1,6 +1,6 @@
 {
   "name": "@insurgent/entity",
-  "version": "2.8.1",
+  "version": "1.7.1",
   "description": "A library to encode and decode JSON into entity classes",
   "type": "module",
   "main": "dist/index.js",
