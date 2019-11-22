@@ -43,9 +43,9 @@ export class Entity {
                     continue;
                 }
 
-                if (sourceObject.hasOwnProperty(key)) {
-                    sourceObject[key] = value;
-                }
+                if (Object.keys(sourceObject).includes(key)) {
+                    sourceObject[key] = value
+                }                
 
                 const defaultValueCallback = defaultMetadataStorage.findCallback(sourceObject.constructor, key);
                 if (defaultValueCallback && defaultValueCallback.condition(sourceObject[key]) ) {

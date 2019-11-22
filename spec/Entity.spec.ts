@@ -3,45 +3,45 @@ import {Type} from '../src/support/Type';
 import {Default} from "../src/support/Default";
 
 class User extends Entity {
-    public name: string = null;
-    public email: string = null;
-    public daysAvailable: string[] = [];
+    public name: string;
+    public email: string;
+    public daysAvailable: string[];
 }
 
 class Address extends Entity {
-    public street: string = null;
-    public city: string = null;
-    public zip: string = null;
-    public country: string = null;
+    public street: string;
+    public city: string;
+    public zip: string;
+    public country: string;
 }
 
 class Post extends Entity {
-    public title: string = null;
-    public content: string = null;
+    public title: string;
+    public content: string;
 }
 
 class UserWithAddress extends User {
-    public address: Address = null;
+    public address: Address;
 }
 
 class UserWithAnnotatedAddress extends User {
     @Type(Address)
-    public address: Address = null;
+    public address: Address;
 }
 
 class UserWithAnnotatedPosts extends User {
     @Type(Post)
-    public posts?: Post[] = null;
+    public posts?: Post[];
 }
 
 class UserWithAnnotatedObject extends User {
     @Type(Object)
-    public address: {[key: string]: string} = null;
+    public address: {[key: string]: string};
 }
 
 class UserWithDefaultValue extends User {
     @Default(() => 'hi')
-    public value: string = null;
+    public value: string;
 }
 
 describe('Entity', () => {
@@ -75,7 +75,7 @@ describe('Entity', () => {
             }
         });
 
-        expect(user.address).toBeNull();
+        expect(user.address).toBeUndefined();
     });
 
     it('decodes an annotated nested object', () => {
