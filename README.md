@@ -100,6 +100,7 @@ The method accepts a boolean argument that lets you specify if the output should
 
 
 ## TODO
+- [ ] Make the library available for CommonJS as well (only ES Module for now).
 - [ ] Remove the need to initialize everything to `null`.
 - [ ] Add `strictNullCheck` (depending on the preceding TODO, and may be pretty hard because of the way the lib works)
 

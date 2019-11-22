@@ -10,7 +10,7 @@
     "declaration": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "./dist",
+    "outDir": "./dist/esm",
     "removeComments": true,
     "noUnusedLocals": true,
     "noImplicitAny": true
