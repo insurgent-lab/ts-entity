@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/insurgent-lab/ts-entity/compare/v2.0.0...v2.0.1) (2019-11-22)
+
+
+### Bug Fixes
+
+* re-add index to build ([738a2d4](https://github.com/insurgent-lab/ts-entity/commit/738a2d4717e477670df30feb3b13834dfdc6835f))
+
 # [2.0.0](https://github.com/insurgent-lab/ts-entity/compare/v1.7.1...v2.0.0) (2019-11-21)
 
 
