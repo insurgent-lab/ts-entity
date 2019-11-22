@@ -26,22 +26,26 @@ class UserWithAddress extends User {
 
 class UserWithAnnotatedAddress extends User {
     @Type(Address)
-    public address: Address = null;
+    public address: Address;
 }
 
 class UserWithAnnotatedPosts extends User {
     @Type(Post)
-    public posts?: Post[] = null;
+    public posts?: Post[];
 }
 
 class UserWithAnnotatedObject extends User {
     @Type(Object)
-    public address: {[key: string]: string} = null;
+    public address: {[key: string]: string};
 }
 
 class UserWithDefaultValue extends User {
     @Default(() => 'hi')
     public value: string = null;
+}
+
+class UserWithoutDefaultValue extends User {
+  public value: string;
 }
 
 describe('Entity', () => {
@@ -336,4 +340,16 @@ describe('Entity', () => {
 
         expect(user.value).toEqual('hi');
     });
+
+    it('should assign a default value to non-annotated and non-initialized attributes', function () {
+      const user = new UserWithoutDefaultValue;
+      user.fromJson({
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+        value: 'test'
+      });
+
+      expect(user.value).toEqual('test');
+  });
 });

@@ -10,6 +10,10 @@
     "test": "node --experimental-modules --es-module-specifier-resolution=node run-tests.js",
     "release": "semantic-release"
   },
+  "engines" : {
+    "node" : ">=12"
+  },
+  "engineStrict" : true,
   "repository": {
     "type": "git",
     "url": "https://github.com/insurgent-lab/ts-entity"
