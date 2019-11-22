@@ -3,25 +3,25 @@ import {Type} from '../src/support/Type';
 import {Default} from "../src/support/Default";
 
 class User extends Entity {
-    public name: string = null;
-    public email: string = null;
-    public daysAvailable: string[] = [];
+    public name: string;
+    public email: string;
+    public daysAvailable: string[];
 }
 
 class Address extends Entity {
-    public street: string = null;
-    public city: string = null;
-    public zip: string = null;
-    public country: string = null;
+    public street: string;
+    public city: string;
+    public zip: string;
+    public country: string;
 }
 
 class Post extends Entity {
-    public title: string = null;
-    public content: string = null;
+    public title: string;
+    public content: string;
 }
 
 class UserWithAddress extends User {
-    public address: Address = null;
+    public address: Address;
 }
 
 class UserWithAnnotatedAddress extends User {
@@ -41,11 +41,7 @@ class UserWithAnnotatedObject extends User {
 
 class UserWithDefaultValue extends User {
     @Default(() => 'hi')
-    public value: string = null;
-}
-
-class UserWithoutDefaultValue extends User {
-  public value: string;
+    public value: string;
 }
 
 describe('Entity', () => {
@@ -79,7 +75,7 @@ describe('Entity', () => {
             }
         });
 
-        expect(user.address).toBeNull();
+        expect(user.address).toBeUndefined();
     });
 
     it('decodes an annotated nested object', () => {
@@ -340,16 +336,4 @@ describe('Entity', () => {
 
         expect(user.value).toEqual('hi');
     });
-
-    it('should assign a default value to non-annotated and non-initialized attributes', function () {
-      const user = new UserWithoutDefaultValue;
-      user.fromJson({
-        name: 'Insurgent Lab',
-        email: 'hello@insurgent.io',
-        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
-        value: 'test'
-      });
-
-      expect(user.value).toEqual('test');
-  });
 });

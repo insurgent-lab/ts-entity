@@ -1,6 +1,6 @@
 # Typescript Entity
 
-:warning: This library is solely designed for Node v12.x and above :warning:
+## :warning: **This library is solely designed for Node v13.2 and above** :warning:
 
 This package provides a convenient way to convert JSON retrieved from your API or similar into a TypeScript entity class instance, with a proper type validation implementation.
 
@@ -18,18 +18,16 @@ yarn add @insurgent/entity
 The basic usage is very straightforward: make your class extend `Entity`, and use the `EntityBuilder` to hydrate instances of it:
 
 ```typescript
-import { Entity, EntityBuilder } from '@insurgent/entity';
+import { Entity, EntityBuilder } from '@insurgent/entity'
 
 class User extends Entity {
-  // We instantiate with null to ensure the property exists
-  // at the time of hydration.
-  public name: string = null;
-  public email: string = null;
+  public name: string
+  public email: string
 }
 
 fetch('https://api.service.com/v1/users/1')
   .then(response => response.Body.json())
-  .then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
+  .then(jsonData => EntityBuilder.buildOne(User, jsonData))
 ```
 
 You can also build an array of entities:
@@ -37,7 +35,7 @@ You can also build an array of entities:
 ```typescript
 fetch('https://api.service.com/v1/users')
   .then(response => response.Body.json())
-  .then(jsonData => EntityBuilder.buildMany<User>(User, jsonData));
+  .then(jsonData => EntityBuilder.buildMany(User, jsonData))
 ```
 
 ### Annotating nested entities
@@ -59,21 +57,21 @@ The JSON decoding process will _ignore_ the nested object (`address`). This also
 
 There are two ways to solve this. The first one is to simply override the `.fromJson()` method:
 ```typescript
-import { Entity, EntityBuilder } from '@insurgent/entity';
+import { Entity, EntityBuilder } from '@insurgent/entity'
 
 class User extends Entity {
-  public name: string = null;
-  public email: string = null;
-  public address: Address = null;
+  public name: string
+  public email: string
+  public address: Address
   
   public fromJson(jsonData: any): User {
-    super.fromJson(jsonData);
+    super.fromJson(jsonData)
   
     if (jsonData.hasOwnProperty('address')) {
-      this.address = EntityBuilder.buildOne<Address>(Address, jsonData['address']);
+      this.address = EntityBuilder.buildOne(Address, jsonData['address'])
     }
 
-    return this;
+    return this
   }
 }
 ```
@@ -82,10 +80,10 @@ However, this is quite verbose. Instead, a `@Type` decorator is provided for nes
 
 ```typescript
 class User extends Entity {
-  public name: string = null;
-  public email: string = null;
+  public name: string
+  public email: string
   @Type(Address)
-  public address: Address = null;
+  public address: Address
 }
 ```
 
@@ -100,7 +98,7 @@ The method accepts a boolean argument that lets you specify if the output should
 
 
 ## TODO
-- [ ] Remove the need to initialize everything to `null`.
+- [x] Remove the need to initialize everything to `null`.
 - [ ] Add `strictNullCheck` (depending on the preceding TODO, and may be pretty hard because of the way the lib works)
 
 ## Disabled features (from fork)

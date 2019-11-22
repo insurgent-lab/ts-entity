@@ -7,11 +7,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node --experimental-modules --es-module-specifier-resolution=node run-tests.js",
+    "test": "node --experimental-modules --es-module-specifier-resolution=node --harmony run-tests.js",
     "release": "semantic-release"
   },
   "engines" : {
-    "node" : ">=12"
+    "node" : ">=13.2"
   },
   "engineStrict" : true,
   "repository": {

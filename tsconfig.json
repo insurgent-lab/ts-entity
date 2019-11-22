@@ -2,11 +2,12 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "es2015",
-    "target": "es2017",
+    "target": "ESNext",
     "lib": ["es2017"],
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "useDefineForClassFields": true,
     "declaration": true,
     "baseUrl": ".",
     "rootDir": ".",

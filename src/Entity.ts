@@ -42,15 +42,6 @@ export class Entity {
 
                     continue;
                 }
-                console.log('\n')
-
-                if (key === 'value') {
-                  console.log('key:', key)
-                  console.log('value:', value)
-                  console.log('sourceObject 1:', sourceObject)
-                  console.log('Object.keys(sourceObject):', Object.keys(sourceObject))
-                  console.log('key:', Object.keys(sourceObject).includes(key))
-                }
 
                 if (Object.keys(sourceObject).includes(key)) {
                     sourceObject[key] = value
