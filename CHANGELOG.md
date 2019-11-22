@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/insurgent-lab/ts-entity/compare/v2.0.1...v3.0.0) (2019-11-22)
+
+
+### Features
+
+* remove the need to initialize properties to `null` ([#2](https://github.com/insurgent-lab/ts-entity/issues/2)) ([8623ff8](https://github.com/insurgent-lab/ts-entity/commit/8623ff8623c881ce068ac02107bbfb4370818332))
+
+
+### BREAKING CHANGES
+
+* now compatible only for Node v13.2 and above
+
 ## [2.0.1](https://github.com/insurgent-lab/ts-entity/compare/v2.0.0...v2.0.1) (2019-11-22)
 
 
