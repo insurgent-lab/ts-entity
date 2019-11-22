@@ -1,0 +1,55 @@
+name: Build, Release & Publish
+
+on:
+  pull_request:
+    branches:    
+      - master
+    types: 
+      - closed
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == 'true'
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.2]
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+      - name: Build project
+        run: yarn build
+      - name: Run tests
+        run: yarn test
+
+
+  publish:
+    needs: build
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.2]
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+      - name: Run Semantic Release
+        run: yarn run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

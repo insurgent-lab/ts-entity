@@ -2,7 +2,6 @@
   "repositoryUrl": "git@github.com:insurgent-lab/ts-entity.git",
   "branch": "master",
   "tagFormat": "v${version}",
-  "ci": false,
   "plugins": [
     ["@semantic-release/commit-analyzer", {
       "preset": "insurgent"
