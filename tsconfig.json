@@ -14,9 +14,5 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "noImplicitAny": true
-  },
-  "include": [
-    "./src/**/*",
-    "./spec/**/*",
-  ]
+  }
 }
