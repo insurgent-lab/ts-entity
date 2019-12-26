@@ -96,7 +96,7 @@ export class Entity {
               continue;
           }
 
-          const metadata = defaultMetadataStorage.findTypeMetadata(this.constructor, key);
+          const metadata = defaultMetadataStorage.findTypeMetadata(this.constructor as new() => any, key);
 
           if (value instanceof Array && value.length > 0 && value[0] instanceof Object) {
             if (value[0] instanceof Entity) {

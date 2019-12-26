@@ -1,7 +1,7 @@
 import { TypeMetadata } from './TypeMetadata';
 
 export class DefaultValueCallbackMetadata <T extends any> {
-    constructor(public target: Function,
+    constructor(public target: new() => T,
                 public propertyName: keyof T,
                 public callback: () => any,
                 public condition: (value: any) => boolean) {}
@@ -40,7 +40,7 @@ export class MetadataStorage {
      * @param propertyName
      * @returns {TypeMetadata}
      */
-    findTypeMetadata<T extends any>(target: Function, propertyName: string): TypeMetadata<T> | undefined {
+    findTypeMetadata<T extends any>(target: new() => T, propertyName: string): TypeMetadata<T> | undefined {
         const metadataFromTarget = this.typeMetadatas.find(meta =>
             meta.target === target && meta.sourcePropertyName === propertyName,
         );
@@ -52,7 +52,7 @@ export class MetadataStorage {
         return metadataFromTarget || metadataFromChildren;
     }
 
-    findCallback<T extends any>(target: Function, propertyName: string): DefaultValueCallbackMetadata<T> | undefined {
+    findCallback<T extends any>(target: new() => T, propertyName: string): DefaultValueCallbackMetadata<T> | undefined {
         return this.defaultCallbacks.find(cbmeta => cbmeta.target === target && cbmeta.propertyName === propertyName) ||
             this.defaultCallbacks.find(cbmeta => target.prototype instanceof cbmeta.target && cbmeta.propertyName === propertyName);
     }

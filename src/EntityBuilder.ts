@@ -2,7 +2,7 @@ export class EntityBuilder {
     /**
      * Build an entity object from source data.
      */
-    public static buildOne<T extends any>(buildClass: T, sourceData: Omit<T, 'fromJson'|'toJson'>): T {
+    public static buildOne<T extends any, S extends Omit<T, 'fromJson'|'toJson'>>(buildClass: new () => T, sourceData: S): Required<T | S> {
         this.checkClassValidity(buildClass);
 
         const entity: any = new buildClass();
@@ -13,17 +13,17 @@ export class EntityBuilder {
           entity.fromJson(sourceData);
           return entity;
         } else {
-          return sourceData as T
+          return sourceData as Required<T & S>
         }
     }
 
     /**
      * Build multiple entities from an array of source data.
      */
-    public static buildMany<T extends any>(buildClass: T, sourceData: Omit<T, 'fromJson'|'toJson'>[]): T[] {
+    public static buildMany<T extends any, S extends Omit<T, 'fromJson'|'toJson'>>(buildClass: new () => T, sourceData: S[]): Array<Required<T | S>> {
         this.checkClassValidity(buildClass);
 
-        return sourceData.map(entityData => this.buildOne<T>(buildClass, entityData));
+        return sourceData.map(entityData => this.buildOne<T, S>(buildClass, entityData));
     }
 
     /**
