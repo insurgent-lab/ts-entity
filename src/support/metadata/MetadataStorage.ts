@@ -1,8 +1,8 @@
 import { TypeMetadata } from './TypeMetadata';
 
-export class DefaultValueCallbackMetadata {
+export class DefaultValueCallbackMetadata <T extends any> {
     constructor(public target: Function,
-                public propertyName: string,
+                public propertyName: keyof T,
                 public callback: () => any,
                 public condition: (value: any) => boolean) {}
 }
@@ -17,19 +17,19 @@ export class MetadataStorage {
      *
      * @type {Array}
      */
-    private typeMetadatas: TypeMetadata[] = [];
-    private defaultCallbacks: DefaultValueCallbackMetadata[] = [];
+    private typeMetadatas: TypeMetadata<any>[] = [];
+    private defaultCallbacks: DefaultValueCallbackMetadata<any>[] = [];
 
     /**
      * Append type metadata.
      *
      * @param metadata
      */
-    addTypeMetadata(metadata: TypeMetadata) {
+    addTypeMetadata(metadata: TypeMetadata<any>) {
         this.typeMetadatas.push(metadata);
     }
 
-    addDefaultCallback(callbackMetadata: DefaultValueCallbackMetadata) {
+    addDefaultCallback(callbackMetadata: DefaultValueCallbackMetadata<any>) {
         this.defaultCallbacks.push(callbackMetadata);
     }
 
@@ -40,7 +40,7 @@ export class MetadataStorage {
      * @param propertyName
      * @returns {TypeMetadata}
      */
-    findTypeMetadata(target: any, propertyName: string): TypeMetadata {
+    findTypeMetadata<T extends any>(target: Function, propertyName: string): TypeMetadata<T> | undefined {
         const metadataFromTarget = this.typeMetadatas.find(meta =>
             meta.target === target && meta.sourcePropertyName === propertyName,
         );
@@ -52,7 +52,7 @@ export class MetadataStorage {
         return metadataFromTarget || metadataFromChildren;
     }
 
-    findCallback(target: any, propertyName: string): DefaultValueCallbackMetadata|undefined {
+    findCallback<T extends any>(target: Function, propertyName: string): DefaultValueCallbackMetadata<T> | undefined {
         return this.defaultCallbacks.find(cbmeta => cbmeta.target === target && cbmeta.propertyName === propertyName) ||
             this.defaultCallbacks.find(cbmeta => target.prototype instanceof cbmeta.target && cbmeta.propertyName === propertyName);
     }

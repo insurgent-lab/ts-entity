@@ -3,10 +3,10 @@ import { Type } from '../src/support/Type';
 import { defaultMetadataStorage } from '../src/support/storage';
 
 class Address extends Entity {
-    public street: string = null;
-    public city: string = null;
-    public zip: string = null;
-    public country: string = null;
+    public street: string;
+    public city: string;
+    public zip: string;
+    public country: string;
 }
 
 class UserWithRegularNestedEntity extends Entity {
@@ -36,7 +36,7 @@ describe('TypeMetadata', () => {
             'address'
         );
 
-        expect(metadata.type).toBe(Address);
+        expect(metadata?.type).toBe(Address);
     });
 
     it('resolves type when a resolver function is given', () => {
@@ -45,7 +45,7 @@ describe('TypeMetadata', () => {
             'address'
         );
 
-        expect(metadata.type).toBe(Address);
+        expect(metadata?.type).toBe(Address);
     });
 
     it('resolves type when a resolver function that returns an object is given', () => {
@@ -54,7 +54,7 @@ describe('TypeMetadata', () => {
             'address'
         );
 
-        expect(metadata.type).toBe(Address);
+        expect(metadata?.type).toBe(Address);
     });
 
     it('cannot resolve type when a resolver function that returns an object without the "default" key is given', () => {
@@ -66,6 +66,6 @@ describe('TypeMetadata', () => {
         // We expect it to be undefined, because TypeMetadata will see an object
         // and will try to return `.default` but this type definition does not
         // have a "default" key.
-        expect(metadata.type).toBeUndefined();
+        expect(metadata?.type).toBeUndefined();
     });
 });

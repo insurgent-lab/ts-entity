@@ -1,23 +1,27 @@
 import { EntityBuilder } from './EntityBuilder';
 import { defaultMetadataStorage } from './support/storage';
-import { TypeMetadata } from './support/metadata/TypeMetadata';
+// import { TypeMetadata } from './support/metadata/TypeMetadata';
 
 export class Entity {
-
     /**
      * Parse a generic object into an entity object.
      */
     private static jsonParse<T extends any>(sourceObject: T, jsonObject: Omit<T, 'fromJson'|'toJson'>): T {
-        for (let key in jsonObject) {
+        const keys = Object.keys as <T>(o: T) => (Extract<Omit<keyof T, 'fromJson'|'toJson'>, string>)[];
+        for (let key of keys(sourceObject)) {
             if (jsonObject.hasOwnProperty(key)) {
-                const metadata: TypeMetadata = defaultMetadataStorage.findTypeMetadata(sourceObject.constructor, key);
+                const metadata = defaultMetadataStorage.findTypeMetadata(sourceObject.constructor, key);
                 const value: any = jsonObject[key];
 
                 // We shouldn't copy objects to our entity, as the entity
                 // should be responsible for constructing these itself.
                 if (value !== null && typeof value === 'object' && !(value instanceof Array)) {
                     if (metadata) {
-                        sourceObject[metadata.propertyName] = EntityBuilder.buildOne(metadata.type, value);
+                      if (metadata.type === Object) {
+                          sourceObject[metadata.propertyName] = value
+                        } else {
+                          sourceObject[metadata.propertyName] = EntityBuilder.buildOne(metadata.type, value)
+                        }
                     }
 
                     continue;
@@ -28,7 +32,11 @@ export class Entity {
                 // responsible to construct the array of entities.
                 if (value instanceof Array && value.length > 0 && typeof value[0] === 'object') {
                     if (metadata) {
+                      if (metadata.type === Object) {
+                        sourceObject[metadata.propertyName] = value
+                      } else {
                         sourceObject[metadata.propertyName] = EntityBuilder.buildMany(metadata.type, value);
+                      }
                     }
 
                     continue;
@@ -43,14 +51,18 @@ export class Entity {
                     continue;
                 }
 
-                if (Object.keys(sourceObject).includes(key)) {
-                    sourceObject[key] = value
-                }                
-
                 const defaultValueCallback = defaultMetadataStorage.findCallback(sourceObject.constructor, key);
                 if (defaultValueCallback && defaultValueCallback.condition(sourceObject[key]) ) {
                     sourceObject[key] = defaultValueCallback.callback();
+                    continue
                 }
+
+                sourceObject[key] = value
+            } else {
+              const defaultValueCallback = defaultMetadataStorage.findCallback(sourceObject.constructor, key);
+              if (defaultValueCallback && defaultValueCallback.condition(sourceObject[key]) ) {
+                  sourceObject[key] = defaultValueCallback.callback();
+              }
             }
         }
 
@@ -60,15 +72,15 @@ export class Entity {
   /**
    * Convert JSON data to an Entity instance.
    */
-    fromJson?(jsonData: Omit<this, 'fromJson'|'toJson'>): this {
+    fromJson(jsonData: Omit<this, 'fromJson'|'toJson'>): this {
         return Entity.jsonParse(this, jsonData);
     }
 
   /**
    * Convert an Entity to JSON, either in object or string format.
    */
-    toJson?<T extends boolean>(asString?:  T ): T extends true ? string : Omit<this, 'fromJson'|'toJson'>
-    toJson?(asString: boolean = false): Omit<this, 'fromJson'|'toJson'> | string {
+    toJson<T extends boolean>(asString?:  T ): T extends true ? string : Omit<this, 'fromJson'|'toJson'>
+    toJson(asString: boolean = false): Omit<this, 'fromJson'|'toJson'> | string {
         const data: any = {};
 
         for (let key in this) {
@@ -84,7 +96,7 @@ export class Entity {
               continue;
           }
 
-          const metadata: TypeMetadata = defaultMetadataStorage.findTypeMetadata(this.constructor, key);
+          const metadata = defaultMetadataStorage.findTypeMetadata(this.constructor, key);
 
           if (value instanceof Array && value.length > 0 && value[0] instanceof Object) {
             if (value[0] instanceof Entity) {
@@ -114,3 +126,5 @@ export class Entity {
         return asString ? JSON.stringify(data) : data;
     }
 }
+
+export type Properties<T> = Omit<T, 'fromJson'|'toJson'>
