@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/insurgent-lab/ts-entity/compare/v3.0.0...v4.0.0) (2019-12-27)
+
+
+### Code Refactoring
+
+* add strictNullChecks & noImplicitAny, remove deferred Type decorator ([#4](https://github.com/insurgent-lab/ts-entity/issues/4)) ([2a2445e](https://github.com/insurgent-lab/ts-entity/commit/2a2445e7955d51ebaecb3e032a5663af99d43941))
+
+
+### BREAKING CHANGES
+
+* Removed deferred `Type` decorator.
+* Enforced `strictNullChecks`.
+
 # [3.0.0](https://github.com/insurgent-lab/ts-entity/compare/v2.0.1...v3.0.0) (2019-11-22)
 
 
