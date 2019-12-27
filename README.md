@@ -2,17 +2,22 @@
 
 ## :warning: **This library is solely designed for Node v13.2 and above** :warning:
 
-This package provides a convenient way to convert JSON retrieved from your API or similar into a TypeScript entity class instance, with a proper type validation implementation.
+This package provides a convenient way to convert JSON retrieved from your API or similar into a TypeScript entity class instance, with proper type inference / checking.
 
 Each class is self-encoding, which means that it knows how to encode itself. As such, each class should extend the `Entity` class in order to work, as it deals with the heavy lifting. Alternatively, your class may implement its own `.fromJson()` method.
 
 
 ## Installation
 Install the package from npm under the name `@insurgent/entity`:
-```
+```bash
 yarn add @insurgent/entity
 ```
 
+
+## Typescript / Node configuration
+In order to use the power of this library, you must use *at least*:
+- NodeJS: 13.2
+- Typescript: 3.7
 
 ## Usage
 The basic usage is very straightforward: make your class extend `Entity`, and use the `EntityBuilder` to hydrate instances of it:
@@ -62,7 +67,7 @@ import { Entity, Properties } from '@insurgent/entity'
 class User extends Entity {
   public name: string
   public email: string
-  public address: Address
+  public address: Properties<Address>
   
   public fromJson(jsonData: any): User {
     super.fromJson(jsonData)
@@ -91,7 +96,7 @@ class User extends Entity {
 The library also provides a `Properties` type that returns the properties of your entity as an interface to enable proper type checking.
 
 #### Note about `Object` (or arrays of `Object`)
-If your entity has a nested object that is **not** represented by another entity, you can also use `@Type(Object)` to annotate that the object should simply be stored as is.
+If your entity has a nested object (or array of objects) that is **not** represented by another entity, you can also use `@Type(Object)` to annotate that the object should simply be stored as is.
 
 ### Encoding back to JSON
 
