@@ -362,7 +362,7 @@ describe('Entity', () => {
             name: 'Insurgent Lab',
             email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
-            // @ts-ignore (test case when strictNullCheck is disabled)
+            // @ts-ignore (test case when strictNullChecks is disabled)
             address: null,
         });
 
@@ -380,7 +380,7 @@ describe('Entity', () => {
 
         user.fromJson({
             name: 'Insurgent Lab',
-            // @ts-ignore (test case when strictNullCheck is disabled)
+            // @ts-ignore (test case when strictNullChecks is disabled)
             email: null,
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
@@ -392,7 +392,7 @@ describe('Entity', () => {
         });
 
         expect(user.toJson())
-          // @ts-ignore (test case when strictNullCheck is disabled)
+          // @ts-ignore (test case when strictNullChecks is disabled)
           .toEqual({
               name: 'Insurgent Lab',
               email: null,
