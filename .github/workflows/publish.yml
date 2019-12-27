@@ -1,4 +1,4 @@
-name: Build, Test, Release & Publish
+name: Test, Release & Publish
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
 
 
   publish:
-    needs: build
+    needs: test
 
     runs-on: ubuntu-latest
     strategy:
