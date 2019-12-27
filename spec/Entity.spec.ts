@@ -24,6 +24,14 @@ class UserWithAddress extends User {
     public address: Properties<Address>;
 }
 
+class UserWithNumbers extends User {
+  public numbers: Array<number>;
+}
+
+class UserWithAddresses extends User {
+  public addresses: Properties<Address>[];
+}
+
 class UserWithAnnotatedAddress extends User {
     @Type(Address)
     public address: Properties<Address> | null;
@@ -82,6 +90,38 @@ describe('Entity', () => {
 
         expect(user.address).toBeUndefined();
     });
+
+    it('does not decode a nested array of objects', () => {
+      const user = new UserWithAddresses;
+
+      user.fromJson({
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+        addresses: [{
+            street: '20-22 Wenlock Road',
+            city: 'London',
+            zip: 'N1 7GU',
+            country: 'United Kingdom'
+        }]
+      });
+
+      expect(user.addresses).toBeUndefined();
+  });
+
+  it('does decode a nested array of primitives', () => {
+    const user = new UserWithNumbers;
+
+    user.fromJson({
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
+      daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+      numbers: [1, 2, 3]
+    });
+
+    expect(user.numbers).toBeDefined();
+    expect(user.numbers).toEqual([1, 2, 3])
+});
 
     it('decodes an annotated nested object', () => {
         const user = new UserWithAnnotatedAddress();
@@ -352,7 +392,7 @@ describe('Entity', () => {
         });
 
         expect(user.toJson())
-        // @ts-ignore (test case when strictNullCheck is disabled)
+          // @ts-ignore (test case when strictNullCheck is disabled)
           .toEqual({
               name: 'Insurgent Lab',
               email: null,
