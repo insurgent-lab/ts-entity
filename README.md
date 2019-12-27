@@ -1,3 +1,5 @@
+<img align="right" src="https://cdn.rawgit.com/standard/standard/master/badge.svg">
+
 # Typescript Entity
 
 ## :warning: **This library is solely designed for Node v13.2 and above** :warning:
