@@ -1,10 +1,10 @@
 import { TypeMetadata } from './TypeMetadata'
 
 export class DefaultValueCallbackMetadata <T extends any> {
-  public target: new() => T
-  public propertyName: keyof T
-  public callback: () => any
-  public condition: (value: any) => boolean
+  constructor (public target: new() => T,
+                public propertyName: keyof T,
+                public callback: () => any,
+                public condition: (value: any) => boolean) {}
 }
 
 /**
