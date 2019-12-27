@@ -19,6 +19,7 @@ In order to use the power of this library, you must use *at least*:
 - NodeJS: 13.2
 - Typescript: 3.7
 
+
 ## Usage
 The basic usage is very straightforward: make your class extend `Entity`, and use the `EntityBuilder` to hydrate instances of it:
 
@@ -43,6 +44,7 @@ fetch('https://api.service.com/v1/users')
   .then(jsonData => EntityBuilder.buildMany(User, jsonData))
 ```
 
+
 ### Annotating nested entities
 
 If your endpoint returns a nested object, such as:
@@ -62,7 +64,7 @@ The JSON decoding process will _ignore_ the nested object (`address`). This also
 
 There are two ways to solve this. The first one is to simply override the `.fromJson()` method:
 ```typescript
-import { Entity, Properties } from '@insurgent/entity'
+import { Entity, Properties, EntityBuilder } from '@insurgent/entity'
 
 class User extends Entity {
   public name: string
@@ -73,8 +75,7 @@ class User extends Entity {
     super.fromJson(jsonData)
   
     if (jsonData.hasOwnProperty('address')) {
-      this.address = new Address()
-      this.address.fromJson(jsonData['address'])
+      this.address = EntityBuilder.buildOne(Address, jsonData['address'])
     }
 
     return this
@@ -97,6 +98,29 @@ The library also provides a `Properties` type that returns the properties of you
 
 #### Note about `Object` (or arrays of `Object`)
 If your entity has a nested object (or array of objects) that is **not** represented by another entity, you can also use `@Type(Object)` to annotate that the object should simply be stored as is.
+
+
+### Annotating default values
+
+You can specify default values as follow:
+```typescript
+import { Entity, EntityBuilder } from '@insurgent/entity'
+
+class DefaultValue extends Entity {
+  @Default(() => 'hi')
+  public value: string | null;
+}
+
+const jsonData = {
+  value: null
+}
+
+const user = EntityBuilder.buildOne(DefaultValue, jsonData)
+
+console.log(user.value) // "hi"
+```
+You must initialize annotated default values with `null` as it is currently impossible to mutate the type using a decorator ([Github issue](https://github.com/Microsoft/TypeScript/issues/4881)).
+
 
 ### Encoding back to JSON
 

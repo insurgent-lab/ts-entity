@@ -1,7 +1,7 @@
 import {Entity, Properties} from '../src/Entity';
 import {EntityBuilder} from '../src/EntityBuilder';
 import {Type} from '../src/support/Type';
-// import {Default} from "../src/support/Default";
+import {Default} from "../src/support/Default";
 
 class User extends Entity {
     public name: string;
@@ -28,6 +28,11 @@ class UserWithAnnotatedAddress extends User {
 class UserWithOptionalAddress extends User {
   @Type(Address)
   public address?: Properties<Address>;
+}
+
+class UserWithDefaultValue extends User {
+  @Default(() => 'hi')
+  public value: string | null;
 }
 
 describe('Entity', () => {
@@ -107,5 +112,18 @@ describe('Entity', () => {
       expect(user.address.city).toEqual('London');
       expect(user.address.zip).toEqual('N1 7GU');
       expect(user.address.country).toEqual('United Kingdom');
+  });
+
+  it('should assign a default value to null properties', function () {
+    const jsonData = {
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
+      daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+      value: null
+    }
+
+    const user = EntityBuilder.buildOne(UserWithDefaultValue, jsonData)
+    
+    expect(user.value).toEqual('hi');
   });
 });

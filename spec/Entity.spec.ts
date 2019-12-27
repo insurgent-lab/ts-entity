@@ -406,17 +406,6 @@ describe('Entity', () => {
           });
     });
 
-    it('should assign a default value to unspecified properties', function () {
-        const user = new UserWithDefaultValue;
-        user.fromJson({
-          name: 'Insurgent Lab',
-          email: 'hello@insurgent.io',
-          daysAvailable: ['Monday', 'Wednesday', 'Friday']
-        });
-        
-        expect(user.value).toEqual('hi');
-    });
-
     it('should assign a default value to null properties', function () {
       const user = new UserWithDefaultValue;
       user.fromJson({
