@@ -1,4 +1,4 @@
-import {Entity} from '../src/Entity';
+import {Entity,Properties} from '../src/Entity';
 import {Type} from '../src/support/Type';
 import {Default} from "../src/support/Default";
 
@@ -21,17 +21,25 @@ class Post extends Entity {
 }
 
 class UserWithAddress extends User {
-    public address: Address;
+    public address: Properties<Address>;
+}
+
+class UserWithNumbers extends User {
+  public numbers: Array<number>;
+}
+
+class UserWithAddresses extends User {
+  public addresses: Properties<Address>[];
 }
 
 class UserWithAnnotatedAddress extends User {
     @Type(Address)
-    public address: Address;
+    public address: Properties<Address> | null;
 }
 
 class UserWithAnnotatedPosts extends User {
     @Type(Post)
-    public posts?: Post[];
+    public posts?: Properties<Post>[];
 }
 
 class UserWithAnnotatedObject extends User {
@@ -39,9 +47,14 @@ class UserWithAnnotatedObject extends User {
     public address: {[key: string]: string};
 }
 
+class UserWithAnnotatedObjectArray extends User {
+    @Type(Object)
+    public addresses: {[key: string]: string}[];
+}
+
 class UserWithDefaultValue extends User {
     @Default(() => 'hi')
-    public value: string;
+    public value?: string | null;
 }
 
 describe('Entity', () => {
@@ -78,6 +91,38 @@ describe('Entity', () => {
         expect(user.address).toBeUndefined();
     });
 
+    it('does not decode a nested array of objects', () => {
+      const user = new UserWithAddresses;
+
+      user.fromJson({
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+        addresses: [{
+            street: '20-22 Wenlock Road',
+            city: 'London',
+            zip: 'N1 7GU',
+            country: 'United Kingdom'
+        }]
+      });
+
+      expect(user.addresses).toBeUndefined();
+  });
+
+  it('does decode a nested array of primitives', () => {
+    const user = new UserWithNumbers;
+
+    user.fromJson({
+      name: 'Insurgent Lab',
+      email: 'hello@insurgent.io',
+      daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+      numbers: [1, 2, 3]
+    });
+
+    expect(user.numbers).toBeDefined();
+    expect(user.numbers).toEqual([1, 2, 3])
+});
+
     it('decodes an annotated nested object', () => {
         const user = new UserWithAnnotatedAddress();
 
@@ -94,10 +139,10 @@ describe('Entity', () => {
         });
 
         expect(user.address).toBeDefined();
-        expect(user.address.street).toEqual('20-22 Wenlock Road');
-        expect(user.address.city).toEqual('London');
-        expect(user.address.zip).toEqual('N1 7GU');
-        expect(user.address.country).toEqual('United Kingdom');
+        expect(user.address?.street).toEqual('20-22 Wenlock Road');
+        expect(user.address?.city).toEqual('London');
+        expect(user.address?.zip).toEqual('N1 7GU');
+        expect(user.address?.country).toEqual('United Kingdom');
     });
 
     it('decodes an annotated optional nested array object', () => {
@@ -114,9 +159,9 @@ describe('Entity', () => {
         });
 
         expect(user.posts).toBeDefined();
-        expect(user.posts[0]).toBeDefined();
-        expect(user.posts[0].title).toEqual('About');
-        expect(user.posts[0].content).toEqual('Lorem ipsum dolor sit amet');
+        expect(user.posts?.[0]).toBeDefined();
+        expect(user.posts?.[0].title).toEqual('About');
+        expect(user.posts?.[0].content).toEqual('Lorem ipsum dolor sit amet');
     });
 
     it('decodes an annotated optional nested array object to empty array', () => {
@@ -154,6 +199,39 @@ describe('Entity', () => {
         expect(user.address['zip']).toEqual('N1 7GU');
         expect(user.address['country']).toEqual('United Kingdom');
     });
+
+    it('can decode an annotated array of Objects, without being an entity', () => {
+      const user = new UserWithAnnotatedObjectArray();
+
+      user.fromJson({
+          name: 'Insurgent Lab',
+          email: 'hello@insurgent.io',
+          daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+          addresses: [{
+              street: '20-22 Wenlock Road',
+              city: 'London',
+              zip: 'N1 7GU',
+              country: 'United Kingdom'
+          }, {
+            street: '221B Baker Street',
+            city: 'London',
+            zip: 'NW1 6XE',
+            country: 'United Kingdom'
+        }]
+      });
+
+      expect(user.addresses).toBeDefined();
+
+      expect(user.addresses[0]['street']).toEqual('20-22 Wenlock Road');
+      expect(user.addresses[0]['city']).toEqual('London');
+      expect(user.addresses[0]['zip']).toEqual('N1 7GU');
+      expect(user.addresses[0]['country']).toEqual('United Kingdom');
+
+      expect(user.addresses[1]['street']).toEqual('221B Baker Street');
+      expect(user.addresses[1]['city']).toEqual('London');
+      expect(user.addresses[1]['zip']).toEqual('NW1 6XE');
+      expect(user.addresses[1]['country']).toEqual('United Kingdom');
+  });
 
     it('can encode itself to a plain object', () => {
       const user = new User;
@@ -277,13 +355,14 @@ describe('Entity', () => {
       });
   });
 
-    it('should preserve null values for annotated attributes', function () {
+    it('should not preserve null values for annotated attributes', function () {
         const user = new UserWithAnnotatedAddress();
 
         user.fromJson({
             name: 'Insurgent Lab',
             email: 'hello@insurgent.io',
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+            // @ts-ignore (test case when strictNullChecks is disabled)
             address: null,
         });
 
@@ -301,6 +380,7 @@ describe('Entity', () => {
 
         user.fromJson({
             name: 'Insurgent Lab',
+            // @ts-ignore (test case when strictNullChecks is disabled)
             email: null,
             daysAvailable: ['Monday', 'Wednesday', 'Friday'],
             address: {
@@ -312,6 +392,7 @@ describe('Entity', () => {
         });
 
         expect(user.toJson())
+          // @ts-ignore (test case when strictNullChecks is disabled)
           .toEqual({
               name: 'Insurgent Lab',
               email: null,
@@ -325,15 +406,15 @@ describe('Entity', () => {
           });
     });
 
-    it('should assign a default value to properties with a null value', function () {
-        const user = new UserWithDefaultValue;
-        user.fromJson({
-          name: 'Insurgent Lab',
-          email: 'hello@insurgent.io',
-          daysAvailable: ['Monday', 'Wednesday', 'Friday'],
-          value: null
-        });
-
-        expect(user.value).toEqual('hi');
-    });
+    it('should assign a default value to null properties', function () {
+      const user = new UserWithDefaultValue;
+      user.fromJson({
+        name: 'Insurgent Lab',
+        email: 'hello@insurgent.io',
+        daysAvailable: ['Monday', 'Wednesday', 'Friday'],
+        value: null
+      });
+      
+      expect(user.value).toEqual('hi');
+  });
 });

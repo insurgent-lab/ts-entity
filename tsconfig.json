@@ -14,6 +14,7 @@
     "outDir": "./dist",
     "removeComments": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "strictNullChecks": true
   }
 }
