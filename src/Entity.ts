@@ -7,8 +7,7 @@ export class Entity {
      * Parse a generic object into an entity object.
      */
   private static jsonParse<T extends any> (sourceObject: T, jsonObject: Omit<T, 'fromJson'|'toJson'>): T {
-    const keys = Object.keys as <T>(o: T) => (Extract<Omit<keyof T, 'fromJson'|'toJson'>, string>)[]
-    for (const key of keys(sourceObject)) {
+    for (const key of Object.keys(sourceObject)) {
       if (Object.prototype.hasOwnProperty.call(jsonObject, key)) {
         const metadata = defaultMetadataStorage.findTypeMetadata(sourceObject.constructor, key)
         const value: any = jsonObject[key]
@@ -96,7 +95,7 @@ export class Entity {
         continue
       }
 
-      const metadata = defaultMetadataStorage.findTypeMetadata(this.constructor as new() => any, key)
+      const metadata = defaultMetadataStorage.findTypeMetadata(this.constructor as new() => this, key)
 
       if (value instanceof Array && value.length > 0 && value[0] instanceof Object) {
         if (value[0] instanceof Entity) {
@@ -123,8 +122,17 @@ export class Entity {
       data[key] = value
     }
 
+    // getters are not returned by the for...in loop
+    // therefore we find them from metadatas storage
+    const getters = defaultMetadataStorage.findGetterMetadatas(this.constructor as new() => this)
+
+    if (getters.length > 0) {
+      getters.map(getter => {
+        data[getter.sourcePropertyName] = this[getter.propertyName]
+      })
+    }
+
     return asString ? JSON.stringify(data) : data
   }
 }
 
-export type Properties<T> = Omit<T, 'fromJson'|'toJson'>

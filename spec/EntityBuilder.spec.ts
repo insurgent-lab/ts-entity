@@ -1,6 +1,8 @@
-import { Entity, Properties } from '../src/Entity'
+import { Entity } from '../src/Entity'
 import { EntityBuilder } from '../src/EntityBuilder'
+import { Properties } from '../src/utils/types'
 import { Type } from '../src/support/Type'
+import { Getter } from '../src/support/Getter'
 import { Default } from '../src/support/Default'
 
 class User extends Entity {
@@ -33,6 +35,22 @@ class UserWithOptionalAddress extends User {
 class UserWithDefaultValue extends User {
   @Default(() => 'hi')
   public value: string | null
+}
+
+interface IUserWithGetter {
+  firstName: string
+  lastName: string
+  readonly fullName: string
+}
+
+class UserWithGetter extends Entity implements IUserWithGetter {
+  public firstName: string
+  public lastName: string
+
+  @Getter()
+  get fullName (): string {
+    return `${this.firstName} ${this.lastName}`
+  }
 }
 
 describe('Entity', () => {
@@ -125,5 +143,21 @@ describe('Entity', () => {
     const user = EntityBuilder.buildOne(UserWithDefaultValue, jsonData)
 
     expect(user.value).toEqual('hi')
+  })
+
+  it('works with a class containing a getter', function () {
+    const jsonData = {
+      firstName: 'Sherlock',
+      lastName: 'Holmes',
+    }
+
+    const user = EntityBuilder.buildOne(UserWithGetter, jsonData)
+
+    expect(user.fullName).toEqual('Sherlock Holmes')
+    expect(user.toJson()).toEqual({
+      firstName: 'Sherlock',
+      lastName: 'Holmes',
+      fullName: 'Sherlock Holmes',
+    })
   })
 })
