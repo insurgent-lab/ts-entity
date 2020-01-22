@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/insurgent-lab/ts-entity/compare/v4.1.0...v4.2.0) (2020-01-22)
+
+
+### Features
+
+* **tg-1:** support for getters ([#8](https://github.com/insurgent-lab/ts-entity/issues/8)) ([f8d6b0a](https://github.com/insurgent-lab/ts-entity/commit/f8d6b0adf58375c51f1bdc0b2564127b7d66f395))
+
 # [4.0.0](https://github.com/insurgent-lab/ts-entity/compare/v3.0.0...v4.0.0) (2020-01-22)
 
 
