@@ -83,7 +83,6 @@ export class Entity {
     const data: any = {}
 
     for (const key in this) {
-      if (key === 'fullName') console.log('fullName !')
       if (!Object.prototype.hasOwnProperty.call(this, key)) {
         continue
       }
