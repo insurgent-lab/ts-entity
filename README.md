@@ -106,7 +106,7 @@ If your entity has a nested object (or array of objects) that is **not** represe
 
 You can specify default values as follow:
 ```typescript
-import { Entity, EntityBuilder, Default } from '@insurgent/entity'
+import { Entity, EntityBuilder } from '@insurgent/entity'
 
 class DefaultValue extends Entity {
   @Default(() => 'hi')
@@ -124,44 +124,6 @@ console.log(user.value) // "hi"
 You must initialize annotated default values with `null` as it is currently impossible to mutate the type using a decorator ([Github issue](https://github.com/Microsoft/TypeScript/issues/4881)).
 
 
-### Classes with getters
-
-You can use getters to encode business logic (like calculating price with taxes for a product for example).
-
-To use getters, you must first declare an interface to specify the getter as `readonly`,
-then use the `@Getter()` decorator if you want it to be encoded back to JSON.
-
-```typescript
-import { Entity, EntityBuilder, Getter } from '@insurgent/entity'
-
-interface IUserWithGetter {
-  firstName: string
-  lastName: string
-  readonly fullName: string
-}
-
-class UserWithGetter extends Entity implements IUserWithGetter {
-  public firstName: string
-  public lastName: string
-
-  @Getter()
-  get fullName (): string {
-    return `${this.firstName} ${this.lastName}`
-  }
-}
-
-const jsonData = {
-  firstName: 'Sherlock',
-  lastName: 'Holmes',
-}
-
-const user = EntityBuilder.buildOne(UserWithGetter, jsonData)
-
-console.log(user.fullName) // Sherlock Holmes
-console.log(user.toJson(true)) // {"firstName":"Sherlock","lastName":"Holmes","fullName":"Sherlock Holmes"}
-```
-
-
 ### Encoding back to JSON
 
 Entity objects can also be encoded back to a plain JavaScript Object, or as a JSON string. You can call `entity.toJson()` on any entity to convert it to a plain JS object.
@@ -172,9 +134,7 @@ The method accepts a boolean argument that lets you specify if the output should
 ## TODO
 - [x] Remove the need to initialize everything to `null`.
 - [x] Add `strictNullChecks` (depending on the preceding TODO, and may be pretty hard because of the way the lib works)
-- [x] Add ESLint
-- [x] Support for getters
-- [ ] Support for setters ? (may be natural)
+- [ ] Add ESLint
 - [ ] Add a cleanup function that picks only existing class properties from an object literal
 
 ## Disabled features (from fork)

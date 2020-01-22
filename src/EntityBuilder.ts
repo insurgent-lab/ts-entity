@@ -1,18 +1,15 @@
-import { Entity } from './Entity'
-import { WritableKeys } from './utils/types'
-
 export class EntityBuilder {
   /**
      * Build an entity object from source data.
      */
-  public static buildOne<T extends any, S extends Omit<T, 'fromJson'|'toJson'>> (BuildClass: new () => T, sourceData: WritableKeys<S>): Required<T & S> {
+  public static buildOne<T extends any, S extends Omit<T, 'fromJson'|'toJson'>> (BuildClass: new () => T, sourceData: S): Required<T | S> {
     this.checkClassValidity(BuildClass)
 
     const entity: any = new BuildClass()
 
-    // we ensure it is an entity as it
+    // we ensure that `fromJson` is available as this
     // could simply be annotated with `@Type(Object)`
-    if (BuildClass.prototype instanceof Entity) {
+    if (typeof entity.fromJson === 'function') {
       entity.fromJson(sourceData)
       return entity
     } else {
@@ -23,7 +20,7 @@ export class EntityBuilder {
   /**
      * Build multiple entities from an array of source data.
      */
-  public static buildMany<T extends any, S extends Omit<T, 'fromJson'|'toJson'>> (BuildClass: new () => T, sourceData: WritableKeys<S>[]): Array<Required<T & S>> {
+  public static buildMany<T extends any, S extends Omit<T, 'fromJson'|'toJson'>> (BuildClass: new () => T, sourceData: S[]): Array<Required<T | S>> {
     this.checkClassValidity(BuildClass)
 
     return sourceData.map(entityData => this.buildOne<T, S>(BuildClass, entityData))
