@@ -21,6 +21,22 @@ In order to use the power of this library, you must use *at least*:
 - NodeJS: 13.2
 - Typescript: 3.7
 
+You must have a tsconfig.json file similar to this for the library to work:
+
+tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2015",
+    "target": "ESNext",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true
+  }
+}
+```
+
 
 ## Usage
 The basic usage is very straightforward: make your class extend `Entity`, and use the `EntityBuilder` to hydrate instances of it:
