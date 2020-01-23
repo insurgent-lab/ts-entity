@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/insurgent-lab/ts-entity/compare/v4.2.0...v4.2.1) (2020-01-23)
+
+
+### Bug Fixes
+
+* added prepublish script ([576e979](https://github.com/insurgent-lab/ts-entity/commit/576e9794c16842e2007357d2836d14bd7264a7c6))
+
 # [4.2.0](https://github.com/insurgent-lab/ts-entity/compare/v4.1.0...v4.2.0) (2020-01-22)
 
 
