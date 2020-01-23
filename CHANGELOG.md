@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/insurgent-lab/ts-entity/compare/v4.2.1...v4.2.2) (2020-01-23)
+
+
+### Bug Fixes
+
+* reflect-metadata as dependency ([bdead7b](https://github.com/insurgent-lab/ts-entity/commit/bdead7b4c7d519e9b7bdad85a5305020c9bf7144))
+
 ## [4.2.1](https://github.com/insurgent-lab/ts-entity/compare/v4.2.0...v4.2.1) (2020-01-23)
 
 
