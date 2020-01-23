@@ -8,6 +8,7 @@
   "scripts": {
     "eslint": "eslint --ext .ts .",
     "build": "tsc",
+    "prepublish": "yarn run build",
     "test": "node --es-module-specifier-resolution=node --harmony run-tests.js",
     "release": "semantic-release"
   },
