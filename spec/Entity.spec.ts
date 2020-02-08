@@ -1,5 +1,4 @@
-import { Entity } from '../src/Entity'
-import { Properties } from '../src/utils/types'
+import { Entity, Properties } from '../src/Entity'
 import { Type } from '../src/support/Type'
 import { Default } from '../src/support/Default'
 
@@ -362,6 +361,7 @@ describe('Entity', () => {
       name: 'Insurgent Lab',
       email: 'hello@insurgent.io',
       daysAvailable: [ 'Monday', 'Wednesday', 'Friday' ],
+      // @ts-ignore (test case when strictNullChecks is disabled)
       address: null,
     })
 
@@ -379,7 +379,7 @@ describe('Entity', () => {
 
     user.fromJson({
       name: 'Insurgent Lab',
-      // @ts-ignore (assumes strictNullChecks is disabled)
+      // @ts-ignore (test case when strictNullChecks is disabled)
       email: null,
       daysAvailable: [ 'Monday', 'Wednesday', 'Friday' ],
       address: {
@@ -391,7 +391,7 @@ describe('Entity', () => {
     })
 
     expect(user.toJson())
-    // @ts-ignore (assumes strictNullChecks is disabled)
+    // @ts-ignore (test case when strictNullChecks is disabled)
       .toEqual({
         name: 'Insurgent Lab',
         email: null,
