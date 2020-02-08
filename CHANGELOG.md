@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/insurgent-lab/ts-entity/compare/v5.0.0...v5.0.1) (2020-02-08)
+
+
+### Bug Fixes
+
+* **builder:** wrong optional properties with data & interface ([#10](https://github.com/insurgent-lab/ts-entity/issues/10)) ([3eaa536](https://github.com/insurgent-lab/ts-entity/commit/3eaa5367af67e18534102088a7209149086b8776))
+
 # [5.0.0](https://github.com/insurgent-lab/ts-entity/compare/v4.2.2...v5.0.0) (2020-02-08)
 
 
