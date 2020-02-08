@@ -150,7 +150,7 @@ The method accepts a boolean argument that lets you specify if the output should
 ## TODO
 - [x] Remove the need to initialize everything to `null`.
 - [x] Add `strictNullChecks` (depending on the preceding TODO, and may be pretty hard because of the way the lib works)
-- [ ] Add ESLint
+- [x] Add ESLint
 - [ ] Add a cleanup function that picks only existing class properties from an object literal
 
 ## Disabled features (from fork)

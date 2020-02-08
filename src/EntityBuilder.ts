@@ -1,3 +1,5 @@
+import { Entity } from './Entity'
+
 export class EntityBuilder {
   /**
      * Build an entity object from source data.
@@ -9,7 +11,7 @@ export class EntityBuilder {
 
     // we ensure that `fromJson` is available as this
     // could simply be annotated with `@Type(Object)`
-    if (typeof entity.fromJson === 'function') {
+    if (BuildClass.prototype instanceof Entity) {
       entity.fromJson(sourceData)
       return entity
     } else {
