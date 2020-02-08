@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/insurgent-lab/ts-entity/compare/v4.2.2...v5.0.0) (2020-02-08)
+
+
+### Bug Fixes
+
+* revert "feat(TG-1): support for getters ([#8](https://github.com/insurgent-lab/ts-entity/issues/8))" ([#9](https://github.com/insurgent-lab/ts-entity/issues/9)) ([04ffb2e](https://github.com/insurgent-lab/ts-entity/commit/04ffb2eadda4d328367d8aa797bece57aebda0aa))
+
+
+### BREAKING CHANGES
+
+* reverts support for getters because it added a lot of complexity in types management and also broke type manipulation.
+
 ## [4.2.2](https://github.com/insurgent-lab/ts-entity/compare/v4.2.1...v4.2.2) (2020-01-23)
 
 
