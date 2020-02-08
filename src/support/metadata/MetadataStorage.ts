@@ -1,5 +1,4 @@
 import { TypeMetadata } from './TypeMetadata'
-import { GetterMetadata } from './GetterMetadata'
 
 export class DefaultValueCallbackMetadata <T extends any> {
   constructor (public target: new() => T,
@@ -18,7 +17,6 @@ export class MetadataStorage {
      * @type {Array}
      */
     private typeMetadatas: TypeMetadata<any>[] = []
-    private getterMetadatas: GetterMetadata<any>[] = []
     private defaultCallbacks: DefaultValueCallbackMetadata<any>[] = []
 
     /**
@@ -28,10 +26,6 @@ export class MetadataStorage {
      */
     addTypeMetadata (metadata: TypeMetadata<any>) {
       this.typeMetadatas.push(metadata)
-    }
-
-    addGetterMetadata (metadata: GetterMetadata<any>) {
-      this.getterMetadatas.push(metadata)
     }
 
     addDefaultCallback (callbackMetadata: DefaultValueCallbackMetadata<any>) {
@@ -55,12 +49,6 @@ export class MetadataStorage {
       )
 
       return metadataFromTarget || metadataFromChildren
-    }
-
-    findGetterMetadatas<T extends any> (target: new() => T): GetterMetadata<T>[] {
-      const metadatasFromTarget = this.getterMetadatas.filter(meta => meta.target === target)
-
-      return metadatasFromTarget
     }
 
     findCallback<T extends any> (target: new() => T, propertyName: string): DefaultValueCallbackMetadata<T> | undefined {
